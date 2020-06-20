@@ -114,17 +114,12 @@ namespace NetSparkleUpdater
         public static string GetFullBaseDirectory()
         {
 #if NETCORE
-            var fullBaseDirectory = Path.GetFullPath(AppContext.BaseDirectory);
-
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                if (!fullBaseDirectory.StartsWith("/"))
-                {
-                    fullBaseDirectory = fullBaseDirectory.Insert(0, "/");
-                }
-            }
-
-            return fullBaseDirectory;
+#if DEBUG
+            var location = new Uri(System.Reflection.Assembly.GetEntryAssembly().GetName().CodeBase);
+            return Path.GetDirectoryName(location.LocalPath);
+#else
+            return Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+#endif
 #else
             // https://stackoverflow.com/a/837501/3938401
             return System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
