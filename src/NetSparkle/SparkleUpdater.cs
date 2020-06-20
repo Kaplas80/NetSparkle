@@ -1300,6 +1300,9 @@ namespace NetSparkleUpdater
                         write.Write(output);
                     }
                     write.Close();
+
+                    // If the file is a osx/linux script, it needs the execution bit set
+                    Mono.Unix.Native.Syscall.chmod(batchFilePath, Mono.Unix.Native.FilePermissions.S_IRWXU);
                 }
             }
 
