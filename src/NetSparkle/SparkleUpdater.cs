@@ -1279,7 +1279,7 @@ namespace NetSparkleUpdater
                         // use tar to extract
                         var tarCommand = isMacOS ? $"tar -x -f {downloadFilePath} -C \"{workingDir}\"" 
                             : $"tar -xf {downloadFilePath} -C \"{workingDir}\" --overwrite ";
-                        var output = $@"
+                        var output = $@"#!/bin/sh
                             {waitForFinish}
                             {tarCommand}
                             {relaunchAfterUpdate}";
@@ -1293,7 +1293,7 @@ namespace NetSparkleUpdater
                         {
                             relaunchAfterUpdate = ""; // relaunching not supported for pkg or dmg downloads
                         }
-                        var output = $@"
+                        var output = $@"#!/bin/sh
                             {waitForFinish}
                             {installerCmd}
                             {relaunchAfterUpdate}";
